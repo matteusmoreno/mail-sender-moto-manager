@@ -1,6 +1,7 @@
 package com.matteusmoreno.mail_sender_moto_manager.service;
 
 import com.matteusmoreno.mail_sender_moto_manager.request.CreateEmailEmployeeRequest;
+import com.matteusmoreno.mail_sender_moto_manager.request.DisableEmailEmployeeRequest;
 import com.matteusmoreno.mail_sender_moto_manager.request.UpdateEmailEmployeeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -117,6 +118,40 @@ public class EmployeeEmailService {
 
         message.setText(body);
 
+        javaMailSender.send(message);
+    }
+
+    public void sendEmployeeDeactivationEmail(DisableEmailEmployeeRequest request) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(request.to());
+        message.setSubject("Notificação de Desativação de Conta");
+        message.setFrom(hostEmail);
+
+        String bodyTemplate = """
+            Prezado(a) {EMPLOYEE_NAME},
+            
+            Esperamos que esta mensagem o encontre bem. Estamos entrando em contato para informá-lo(a) que sua conta no Moto Manager foi desativada.
+            
+            Detalhes da sua conta:
+            - Username: {USERNAME}
+            - CPF: {CPF}
+            - Função: {ROLE}
+            
+            Se você acredita que houve um erro ou deseja mais informações, entre em contato com o departamento de recursos humanos ou com o suporte técnico.
+            
+            Agradecemos pela sua contribuição e desejamos sucesso em seus futuros empreendimentos.
+            
+            Atenciosamente,
+            Moto Manager Team
+            """;
+
+        String body = bodyTemplate
+                .replace("{EMPLOYEE_NAME}", defaultIfNull(request.employeeName()))
+                .replace("{USERNAME}", defaultIfNull(request.username()))
+                .replace("{CPF}", defaultIfNull(request.cpf()))
+                .replace("{ROLE}", defaultIfNull(request.role()));
+
+        message.setText(body);
         javaMailSender.send(message);
     }
 

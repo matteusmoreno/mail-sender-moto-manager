@@ -1,6 +1,7 @@
 package com.matteusmoreno.mail_sender_moto_manager.controller;
 
 import com.matteusmoreno.mail_sender_moto_manager.request.CreateEmailEmployeeRequest;
+import com.matteusmoreno.mail_sender_moto_manager.request.DisableEmailEmployeeRequest;
 import com.matteusmoreno.mail_sender_moto_manager.request.UpdateEmailEmployeeRequest;
 import com.matteusmoreno.mail_sender_moto_manager.service.EmployeeEmailService;
 import jakarta.validation.Valid;
@@ -28,6 +29,12 @@ public class EmailController {
     @PostMapping("/employee-update")
     public ResponseEntity<Void> employeeUpdateEmail(@RequestBody @Valid UpdateEmailEmployeeRequest request) {
         employeeEmailService.sendEmployeeUpdateEmail(request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/employee-disable")
+    public ResponseEntity<Void> employeeDisableEmail(@RequestBody @Valid DisableEmailEmployeeRequest request) {
+        employeeEmailService.sendEmployeeDeactivationEmail(request);
         return ResponseEntity.ok().build();
     }
 }
