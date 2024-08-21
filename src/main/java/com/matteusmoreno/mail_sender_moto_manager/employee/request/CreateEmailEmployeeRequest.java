@@ -1,13 +1,13 @@
-package com.matteusmoreno.mail_sender_moto_manager.request;
+package com.matteusmoreno.mail_sender_moto_manager.employee.request;
 
-public record UpdateEmailEmployeeRequest(
+public record CreateEmailEmployeeRequest(
         String to,
         String id,
         String employeeName,
         String username,
+        String password,
         String phone,
         String birthDate,
-        String age,
         String cpf,
         String role,
         String street,

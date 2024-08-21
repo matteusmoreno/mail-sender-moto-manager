@@ -1,6 +1,6 @@
-package com.matteusmoreno.mail_sender_moto_manager.request;
+package com.matteusmoreno.mail_sender_moto_manager.employee.request;
 
-public record DisableEmailEmployeeRequest(
+public record EnableAndDisableEmailEmployeeRequest(
         String to,
         String id,
         String employeeName,

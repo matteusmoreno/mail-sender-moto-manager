@@ -1,8 +1,8 @@
-package com.matteusmoreno.mail_sender_moto_manager.service;
+package com.matteusmoreno.mail_sender_moto_manager.employee.service;
 
-import com.matteusmoreno.mail_sender_moto_manager.request.CreateEmailEmployeeRequest;
-import com.matteusmoreno.mail_sender_moto_manager.request.DisableEmailEmployeeRequest;
-import com.matteusmoreno.mail_sender_moto_manager.request.UpdateEmailEmployeeRequest;
+import com.matteusmoreno.mail_sender_moto_manager.employee.request.CreateEmailEmployeeRequest;
+import com.matteusmoreno.mail_sender_moto_manager.employee.request.EnableAndDisableEmailEmployeeRequest;
+import com.matteusmoreno.mail_sender_moto_manager.employee.request.UpdateEmailEmployeeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -121,7 +121,7 @@ public class EmployeeEmailService {
         javaMailSender.send(message);
     }
 
-    public void sendEmployeeDeactivationEmail(DisableEmailEmployeeRequest request) {
+    public void sendEmployeeDeactivationEmail(EnableAndDisableEmailEmployeeRequest request) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(request.to());
         message.setSubject("Notificação de Desativação de Conta");
@@ -154,6 +154,43 @@ public class EmployeeEmailService {
         message.setText(body);
         javaMailSender.send(message);
     }
+
+    public void sendEmployeeActivationEmail(EnableAndDisableEmailEmployeeRequest request) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(request.to());
+        message.setSubject("Notificação de Ativação de Conta");
+        message.setFrom(hostEmail);
+
+        String bodyTemplate = """
+            Prezado(a) {EMPLOYEE_NAME},
+            
+            É com prazer que informamos que sua conta no Moto Manager foi ativada.
+            
+            Detalhes da sua conta:
+            - Username: {USERNAME}
+            - CPF: {CPF}
+            - Função: {ROLE}
+            
+            Você agora tem acesso total ao sistema e pode retomar suas atividades.
+            
+            Caso precise de qualquer suporte ou tenha dúvidas, nossa equipe está à disposição.
+            
+            Bem-vindo(a) de volta!
+            
+            Atenciosamente,
+            Moto Manager Team
+            """;
+
+        String body = bodyTemplate
+                .replace("{EMPLOYEE_NAME}", defaultIfNull(request.employeeName()))
+                .replace("{USERNAME}", defaultIfNull(request.username()))
+                .replace("{CPF}", defaultIfNull(request.cpf()))
+                .replace("{ROLE}", defaultIfNull(request.role()));
+
+        message.setText(body);
+        javaMailSender.send(message);
+    }
+
 
 
     private static String formatBirthDate(String birthDate) {
