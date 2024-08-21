@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/email")
-public class EmailController {
+public class EmployeeEmailController {
 
     private final EmployeeEmailService employeeEmailService;
 
     @Autowired
-    public EmailController(EmployeeEmailService employeeEmailService) {
+    public EmployeeEmailController(EmployeeEmailService employeeEmailService) {
         this.employeeEmailService = employeeEmailService;
     }
 

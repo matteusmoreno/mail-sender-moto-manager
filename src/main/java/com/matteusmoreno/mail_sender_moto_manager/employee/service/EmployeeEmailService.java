@@ -9,8 +9,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import static com.matteusmoreno.mail_sender_moto_manager.utils.AppUtils.defaultIfNull;
+import static com.matteusmoreno.mail_sender_moto_manager.utils.AppUtils.formatBirthDate;
 
 @Service
 public class EmployeeEmailService {
@@ -193,12 +193,5 @@ public class EmployeeEmailService {
 
 
 
-    private static String formatBirthDate(String birthDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return LocalDate.parse(birthDate).format(formatter);
-    }
 
-    private static String defaultIfNull(String value) {
-        return value != null ? value : "";
-    }
 }
