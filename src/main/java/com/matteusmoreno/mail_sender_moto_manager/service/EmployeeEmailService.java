@@ -1,6 +1,7 @@
 package com.matteusmoreno.mail_sender_moto_manager.service;
 
-import com.matteusmoreno.mail_sender_moto_manager.request.EmailSendRequest;
+import com.matteusmoreno.mail_sender_moto_manager.request.CreateEmailEmployeeRequest;
+import com.matteusmoreno.mail_sender_moto_manager.request.UpdateEmailEmployeeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -11,19 +12,19 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Service
-public class EmailService {
+public class EmployeeEmailService {
 
     private final JavaMailSender javaMailSender;
 
     @Autowired
-    public EmailService(JavaMailSender javaMailSender) {
+    public EmployeeEmailService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
 
     @Value("${SPRING_GMAIL_USERNAME}")
     private String hostEmail;
 
-    public void sendEmployeeCreationEmail(EmailSendRequest request) {
+    public void sendEmployeeCreationEmail(CreateEmailEmployeeRequest request) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(request.to());
         message.setSubject("CONTA CRIADA COM SUCESSO");
@@ -70,6 +71,55 @@ public class EmailService {
 
         javaMailSender.send(message);
     }
+
+    public void sendEmployeeUpdateEmail(UpdateEmailEmployeeRequest request) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(request.to());
+        message.setSubject("DADOS DA CONTA ATUALIZADOS COM SUCESSO");
+        message.setFrom(hostEmail);
+
+        String bodyTemplate = """
+            Olá {EMPLOYEE_NAME},
+            Seus dados foram atualizados com sucesso.
+                          
+            Aqui estão seus novos detalhes:
+            - ID: {ID}
+            - Username: {USERNAME}
+            - Telefone: {PHONE}
+            - Data de Nascimento: {BIRTH_DATE}
+            - Idade : {AGE}
+            - CPF: {CPF}
+            - Função: {ROLE}
+            - Endereço: {STREET}, {NUMBER} - {NEIGHBORHOOD} - {CITY}/{STATE} - CEP: {ZIPCODE} - {COMPLEMENT}
+            
+            Caso não tenha solicitado essa alteração, por favor entre em contato imediatamente.
+            
+            Atenciosamente,
+            Moto Manager Team
+            """;
+
+        String body = bodyTemplate
+                .replace("{ID}", defaultIfNull(request.id()))
+                .replace("{EMPLOYEE_NAME}", defaultIfNull(request.employeeName()))
+                .replace("{USERNAME}", defaultIfNull(request.username()))
+                .replace("{PHONE}", defaultIfNull(request.phone()))
+                .replace("{BIRTH_DATE}", formatBirthDate(request.birthDate()))
+                .replace("{AGE}", request.age())
+                .replace("{CPF}", defaultIfNull(request.cpf()))
+                .replace("{ROLE}", defaultIfNull(request.role()))
+                .replace("{STREET}", defaultIfNull(request.street()))
+                .replace("{NUMBER}", defaultIfNull(request.number()))
+                .replace("{NEIGHBORHOOD}", defaultIfNull(request.neighborhood()))
+                .replace("{CITY}", defaultIfNull(request.city()))
+                .replace("{STATE}", defaultIfNull(request.state()))
+                .replace("{ZIPCODE}", defaultIfNull(request.zipcode()))
+                .replace("{COMPLEMENT}", defaultIfNull(request.complement()));
+
+        message.setText(body);
+
+        javaMailSender.send(message);
+    }
+
 
     private static String formatBirthDate(String birthDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
