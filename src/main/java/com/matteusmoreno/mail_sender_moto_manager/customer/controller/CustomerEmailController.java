@@ -1,6 +1,7 @@
 package com.matteusmoreno.mail_sender_moto_manager.customer.controller;
 
 import com.matteusmoreno.mail_sender_moto_manager.customer.request.CreateEmailCustomerRequest;
+import com.matteusmoreno.mail_sender_moto_manager.customer.request.UpdateEmailCustomerRequest;
 import com.matteusmoreno.mail_sender_moto_manager.customer.service.CustomerEmailService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,12 @@ public class CustomerEmailController {
     @PostMapping("/customer-creation")
     public ResponseEntity<Void> customerCreationEmail(@RequestBody @Valid CreateEmailCustomerRequest request) {
         customerEmailService.sendCustomerCreationEmail(request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/customer-update")
+    public ResponseEntity<Void> customerUpdateEmail(@RequestBody @Valid UpdateEmailCustomerRequest request) {
+        customerEmailService.sendCustomerUpdateEmail(request);
         return ResponseEntity.ok().build();
     }
 }
