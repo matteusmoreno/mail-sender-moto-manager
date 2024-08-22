@@ -40,4 +40,10 @@ public class CustomerEmailController {
         customerEmailService.sendCustomerDeactivationEmail(request);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/customer-enable")
+    public ResponseEntity<Void> customerEnableEmail(@RequestBody @Valid EnableAndDisableEmailCustomerRequest request) {
+        customerEmailService.sendCustomerActivationEmail(request);
+        return ResponseEntity.ok().build();
+    }
 }

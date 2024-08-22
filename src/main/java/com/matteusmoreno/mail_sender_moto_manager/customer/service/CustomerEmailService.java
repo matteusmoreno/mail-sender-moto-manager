@@ -126,7 +126,6 @@ public class CustomerEmailService {
             - Telefone: {PHONE}
             - Data de Criação: {CREATION_DATE}
             - Data de Atualização: {UPDATE_DATE}
-            - Data de Desativação: {DELETED_DATE}
             
             Caso não tenha solicitado essa alteração, por favor entre em contato imediatamente.
             
@@ -142,9 +141,50 @@ public class CustomerEmailService {
                 .replace("{PHONE}", defaultIfNull(request.phone()))
                 .replace("{BIRTH_DATE}", defaultIfNull(formatBirthDate(request.birthDate())))
                 .replace("{CREATION_DATE}", defaultIfNull(formatBirthDate(request.createdAt())))
-                .replace("{UPDATE_DATE}", defaultIfNull(formatBirthDate(request.updatedAt())))
-                .replace("{DELETED_DATE}", defaultIfNull(formatBirthDate(request.deletedAt())));
+                .replace("{UPDATE_DATE}", defaultIfNull(formatBirthDate(request.updatedAt())));
 
+
+        message.setText(body);
+
+        javaMailSender.send(message);
+    }
+
+    public void sendCustomerActivationEmail(EnableAndDisableEmailCustomerRequest request) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(request.to());
+        message.setSubject("Notificação de Ativação de Conta");
+        message.setFrom(hostEmail);
+
+        String bodyTemplate = """
+            Prezado(a) {CUSTOMER_NAME},
+            
+            É com prazer que informamos que sua conta no Moto Manager foi ativada.    
+                    
+            Detalhes da sua conta:
+            - ID: {ID}
+            - Nome: {CUSTOMER_NAME}
+            - Email: {EMAIL}
+            - Data de Nascimento: {BIRTH_DATE}
+            - Idade: {AGE}
+            - Telefone: {PHONE}
+            - Data de Criação: {CREATION_DATE}
+            - Data de Atualização: {UPDATE_DATE}
+            
+            Caso não tenha solicitado essa alteração, por favor entre em contato imediatamente.
+            
+            Atenciosamente,
+            MotoManager Team
+            """;
+
+        String body = bodyTemplate
+                .replace("{ID}", defaultIfNull(request.id()))
+                .replace("{CUSTOMER_NAME}", defaultIfNull(request.customerName()))
+                .replace("{EMAIL}", defaultIfNull(request.email()))
+                .replace("{AGE}", defaultIfNull(request.age()))
+                .replace("{PHONE}", defaultIfNull(request.phone()))
+                .replace("{BIRTH_DATE}", defaultIfNull(formatBirthDate(request.birthDate())))
+                .replace("{CREATION_DATE}", defaultIfNull(formatBirthDate(request.createdAt())))
+                .replace("{UPDATE_DATE}", defaultIfNull(formatBirthDate(request.updatedAt())));
 
         message.setText(body);
 
