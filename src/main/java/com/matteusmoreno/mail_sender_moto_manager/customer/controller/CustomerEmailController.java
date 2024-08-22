@@ -1,6 +1,7 @@
 package com.matteusmoreno.mail_sender_moto_manager.customer.controller;
 
 import com.matteusmoreno.mail_sender_moto_manager.customer.request.CreateEmailCustomerRequest;
+import com.matteusmoreno.mail_sender_moto_manager.customer.request.EnableAndDisableEmailCustomerRequest;
 import com.matteusmoreno.mail_sender_moto_manager.customer.request.UpdateEmailCustomerRequest;
 import com.matteusmoreno.mail_sender_moto_manager.customer.service.CustomerEmailService;
 import jakarta.validation.Valid;
@@ -31,6 +32,12 @@ public class CustomerEmailController {
     @PostMapping("/customer-update")
     public ResponseEntity<Void> customerUpdateEmail(@RequestBody @Valid UpdateEmailCustomerRequest request) {
         customerEmailService.sendCustomerUpdateEmail(request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/customer-disable")
+    public ResponseEntity<Void> customerDisableEmail(@RequestBody @Valid EnableAndDisableEmailCustomerRequest request) {
+        customerEmailService.sendCustomerDeactivationEmail(request);
         return ResponseEntity.ok().build();
     }
 }
