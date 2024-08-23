@@ -7,7 +7,5 @@ public record EnableAndDisableEmailCustomerRequest(
         String email,
         String birthDate,
         String age,
-        String phone,
-        String createdAt,
-        String updatedAt) {
+        String phone) {
 }

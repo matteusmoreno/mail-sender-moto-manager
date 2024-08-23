@@ -124,8 +124,6 @@ public class CustomerEmailService {
             - Data de Nascimento: {BIRTH_DATE}
             - Idade: {AGE}
             - Telefone: {PHONE}
-            - Data de Criação: {CREATION_DATE}
-            - Data de Atualização: {UPDATE_DATE}
             
             Caso não tenha solicitado essa alteração, por favor entre em contato imediatamente.
             
@@ -139,9 +137,7 @@ public class CustomerEmailService {
                 .replace("{EMAIL}", defaultIfNull(request.email()))
                 .replace("{AGE}", defaultIfNull(request.age()))
                 .replace("{PHONE}", defaultIfNull(request.phone()))
-                .replace("{BIRTH_DATE}", defaultIfNull(formatBirthDate(request.birthDate())))
-                .replace("{CREATION_DATE}", defaultIfNull(formatBirthDate(request.createdAt())))
-                .replace("{UPDATE_DATE}", defaultIfNull(formatBirthDate(request.updatedAt())));
+                .replace("{BIRTH_DATE}", defaultIfNull(formatBirthDate(request.birthDate())));
 
 
         message.setText(body);
@@ -167,8 +163,6 @@ public class CustomerEmailService {
             - Data de Nascimento: {BIRTH_DATE}
             - Idade: {AGE}
             - Telefone: {PHONE}
-            - Data de Criação: {CREATION_DATE}
-            - Data de Atualização: {UPDATE_DATE}
             
             Caso não tenha solicitado essa alteração, por favor entre em contato imediatamente.
             
@@ -182,9 +176,7 @@ public class CustomerEmailService {
                 .replace("{EMAIL}", defaultIfNull(request.email()))
                 .replace("{AGE}", defaultIfNull(request.age()))
                 .replace("{PHONE}", defaultIfNull(request.phone()))
-                .replace("{BIRTH_DATE}", defaultIfNull(formatBirthDate(request.birthDate())))
-                .replace("{CREATION_DATE}", defaultIfNull(formatBirthDate(request.createdAt())))
-                .replace("{UPDATE_DATE}", defaultIfNull(formatBirthDate(request.updatedAt())));
+                .replace("{BIRTH_DATE}", defaultIfNull(formatBirthDate(request.birthDate())));
 
         message.setText(body);
 
