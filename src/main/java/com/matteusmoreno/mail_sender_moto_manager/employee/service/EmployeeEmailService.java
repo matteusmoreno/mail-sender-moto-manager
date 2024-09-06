@@ -1,5 +1,6 @@
 package com.matteusmoreno.mail_sender_moto_manager.employee.service;
 
+import com.matteusmoreno.mail_sender_moto_manager.customer.consumer.CustomerEmailConsumer;
 import com.matteusmoreno.mail_sender_moto_manager.employee.request.CreateEmailEmployeeRequest;
 import com.matteusmoreno.mail_sender_moto_manager.employee.request.EnableAndDisableEmailEmployeeRequest;
 import com.matteusmoreno.mail_sender_moto_manager.employee.request.UpdateEmailEmployeeRequest;
@@ -16,10 +17,12 @@ import static com.matteusmoreno.mail_sender_moto_manager.utils.AppUtils.formatBi
 public class EmployeeEmailService {
 
     private final JavaMailSender javaMailSender;
+    private final CustomerEmailConsumer customerEmailConsumer;
 
     @Autowired
-    public EmployeeEmailService(JavaMailSender javaMailSender) {
+    public EmployeeEmailService(JavaMailSender javaMailSender, CustomerEmailConsumer customerEmailConsumer) {
         this.javaMailSender = javaMailSender;
+        this.customerEmailConsumer = customerEmailConsumer;
     }
 
     @Value("${SPRING_GMAIL_USERNAME}")
