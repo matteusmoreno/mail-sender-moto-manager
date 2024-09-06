@@ -3,7 +3,6 @@ package com.matteusmoreno.mail_sender_moto_manager.customer.service;
 import com.matteusmoreno.mail_sender_moto_manager.customer.request.CreateEmailCustomerRequest;
 import com.matteusmoreno.mail_sender_moto_manager.customer.request.EnableAndDisableEmailCustomerRequest;
 import com.matteusmoreno.mail_sender_moto_manager.customer.request.UpdateEmailCustomerRequest;
-import com.matteusmoreno.mail_sender_moto_manager.utils.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;

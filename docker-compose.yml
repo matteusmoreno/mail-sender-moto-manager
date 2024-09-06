@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+
+    mail_sender_app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: mail_sender_app
+        depends_on:
+            rabbitmq_mail_sender:
+                condition: service_healthy
+        ports:
+            - "8081:8081"
+        networks:
+            - moto_manager_network
+        environment:
+            - SPRING_GMAIL_USERNAME=${SPRING_GMAIL_USERNAME}
+        env_file:
+            - env/application-properties.env
+
+    rabbitmq_mail_sender:
+        image: rabbitmq:3-management
+        container_name: rabbitmq_mail_sender
+        ports:
+            - "5673:5672"     # Porta padrão para o RabbitMQ (ajustada para evitar conflito)
+            - "15673:15672"   # Porta para o painel de administração (ajustada para evitar conflito)
+        networks:
+            - moto_manager_network
+        env_file:
+            - env/rabbitmq.env
+        volumes:
+            - rabbitmq_data:/var/lib/rabbitmq
+        restart: unless-stopped
+        healthcheck:
+            test: ["CMD-SHELL", "rabbitmqctl status"]
+            interval: 10s
+            retries: 5
+            start_period: 30s
+            timeout: 5s
+
+networks:
+    moto_manager_network:
+        external: true
+
+volumes:
+    rabbitmq_data:
