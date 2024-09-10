@@ -15,7 +15,7 @@ services:
         networks:
             - moto_manager_network
         environment:
-            - SPRING_GMAIL_USERNAME=${SPRING_GMAIL_USERNAME}
+            - SPRING_GMAIL_USERNAME=matteusjackson@gmail.com
         env_file:
             - env/application-properties.env
 

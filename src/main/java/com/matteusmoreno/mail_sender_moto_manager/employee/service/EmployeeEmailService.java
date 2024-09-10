@@ -5,7 +5,6 @@ import com.matteusmoreno.mail_sender_moto_manager.employee.request.CreateEmailEm
 import com.matteusmoreno.mail_sender_moto_manager.employee.request.EnableAndDisableEmailEmployeeRequest;
 import com.matteusmoreno.mail_sender_moto_manager.employee.request.UpdateEmailEmployeeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -25,14 +24,13 @@ public class EmployeeEmailService {
         this.customerEmailConsumer = customerEmailConsumer;
     }
 
-    @Value("${SPRING_GMAIL_USERNAME}")
-    private String hostEmail;
+    private static final String HOST_EMAIL = "matteusjackson@gmail.com";
 
     public void sendEmployeeCreationEmail(CreateEmailEmployeeRequest request) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(request.to());
         message.setSubject("CONTA CRIADA COM SUCESSO");
-        message.setFrom(hostEmail);
+        message.setFrom(HOST_EMAIL);
 
         String bodyTemplate = """
                 Olá {EMPLOYEE_NAME},
@@ -80,7 +78,7 @@ public class EmployeeEmailService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(request.to());
         message.setSubject("DADOS DA CONTA ATUALIZADOS COM SUCESSO");
-        message.setFrom(hostEmail);
+        message.setFrom(HOST_EMAIL);
 
         String bodyTemplate = """
             Olá {EMPLOYEE_NAME},
@@ -128,7 +126,7 @@ public class EmployeeEmailService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(request.to());
         message.setSubject("Notificação de Desativação de Conta");
-        message.setFrom(hostEmail);
+        message.setFrom(HOST_EMAIL);
 
         String bodyTemplate = """
             Prezado(a) {EMPLOYEE_NAME},
@@ -162,7 +160,7 @@ public class EmployeeEmailService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(request.to());
         message.setSubject("Notificação de Ativação de Conta");
-        message.setFrom(hostEmail);
+        message.setFrom(HOST_EMAIL);
 
         String bodyTemplate = """
             Prezado(a) {EMPLOYEE_NAME},
