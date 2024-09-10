@@ -23,8 +23,8 @@ services:
         image: rabbitmq:3-management
         container_name: rabbitmq_mail_sender
         ports:
-            - "5673:5672"     # Porta padrão para o RabbitMQ (ajustada para evitar conflito)
-            - "15673:15672"   # Porta para o painel de administração (ajustada para evitar conflito)
+            - "5673:5672"
+            - "15673:15672"
         networks:
             - moto_manager_network
         env_file:
