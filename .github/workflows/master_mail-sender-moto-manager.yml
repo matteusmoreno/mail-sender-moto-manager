@@ -22,7 +22,13 @@ jobs:
           java-version: '17'
           distribution: 'microsoft'
 
-      - name: Build with Maven
+      - name: Build with Maven]
+        env:
+            MAIL_HOST: ${{ secrets.MAIL_HOST }}
+            MAIL_PORT: ${{ secrets.MAIL_PORT }}
+            MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+            MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+            RABBITMQ_ADDRESS: ${{ secrets.RABBITMQ_ADDRESS }}
         run: mvn clean install
 
       - name: Upload artifact for deployment job
